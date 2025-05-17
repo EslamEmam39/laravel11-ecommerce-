@@ -66,6 +66,7 @@
          
             </div><!-- form-layout-footer -->
           </div><!-- card -->
+          
         </div><!-- col-6 -->
      
       </div><!-- row -->
@@ -145,7 +146,9 @@
                         text: 'Prodcut Added Successfully',
                         icon: 'success',
                         confirmButtonText: 'Ok'
-                        })
+                        }).then(() => {
+                                location.reload(); // إعادة تحميل الصفحة  
+                            });
                     }
                      
                 }

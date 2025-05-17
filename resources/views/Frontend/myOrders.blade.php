@@ -24,7 +24,9 @@
                 
                     @for ($p = 0; $p < count($pro); $p++) 
                         @php($product = DB::table('products')->where('id' , '=', $pro[$p])->first())
-                
+                @if ($product)
+                    
+              
                         <div class="cart_items">
                             <ul class="cart_list">
                                 <li class="cart_item clearfix">
@@ -69,6 +71,7 @@
                                 </li>
                             </ul>
                         </div>
+                        @endif
                     @endfor
                 @endforeach
                 <div class="d-flex justify-content-center mt-3">

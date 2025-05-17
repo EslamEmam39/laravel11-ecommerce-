@@ -46,7 +46,9 @@ class BackendController extends Controller
          } 
          
          if($request->hasFile('img')){
+
           $img = $request->file('img');
+
           $gen = hexdec(uniqid());
           $ex = strtolower($img->getClientOriginalExtension());
           $name = $gen . '.' . $ex ;
@@ -54,16 +56,18 @@ class BackendController extends Controller
           $source = $location.$name ;
           $img->move($location,$name);
          }else{
-          return response()->json(['error' => 'Image is required' ]);
+           $source = null;
          }
   
 
               $data = Category::insert([
                 'name'        => $request->name , 
                 'order'       =>$request->order ,
-                'img'         => $source  , 
+                'img'         => $source , 
                 'created_at'  => Carbon::now()
               ]);
+
+            
               
             return response()->json(['data' => 1]);
          
@@ -151,7 +155,7 @@ class BackendController extends Controller
    $product = Product::insert([
     'name'       => $namePro ,
     'category'   => $category ,
-    'old_price'  => $oldPrice ,
+    'old_price'  => !empty($oldPrice) ? $oldPrice : null,
     'new_price'  => $newPrice ,
     'img'        => $source ,
     'des'        => $des ,
@@ -409,7 +413,27 @@ public function featured_products_delete(Request $request){
       return redirect()->back()->with('msg' , 'worng plz try agin');
 
     }
+   }// End Method
+
+
+   public function admin_users(){
+    $data = User::role('user')->latest()->paginate(10);
+
+    return view('backend.users.index' ,compact('data'));
+   }// End Method 
+
+   public function admin_users_delete($id){
+
+    $data = User::role('user')->where('id' , '=' , $id)->delete();
+    if($data){
+      return redirect()->back()->with('msg' , 'Delete Successfully');
+    }else{
+      return redirect()->back()->with('msg' , 'worng plz try agin');
+    }
+
    }
+
+
    
   public function admin_logout(){
 

@@ -74,52 +74,57 @@
     font-size: 16px;
     font-weight: bold;
 }
+ 
+
 
 
 </style>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+ 
 
 @endsection
  
 @section('content')
-  <!-- Banner -->
-  <div id="imageSlider" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="3000">
-    <div class="carousel-inner">
-        <!-- الصورة الأولى -->
-        <div class="carousel-item active">
-            <img src="{{ asset('images/maxresdefault.jpg') }}" class="d-block w-100" 
-                 alt="Slider Image 1" >
-        </div>
-
-        <!-- الصورة الثانية -->
-        <div class="carousel-item">
-            <img src="{{ asset('images/big-ramy-willing-to-compete-2020-olympia.webp') }}" class="d-block w-100" 
-                 alt="Slider Image 2"  >
-        </div>
-
-        <!-- الصورة الثالثة -->
-        <div class="carousel-item">
-            <img src="{{ asset('images/Bodybuilding-Photo-HD.jpg') }}" class="d-block w-100" 
-                 alt="Slider Image 3">
-        </div>
-    </div>
-
-    <!-- أزرار التنقل -->
-    <button class="carousel-control-prev" type="button" data-bs-target="#imageSlider" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#imageSlider" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    </button>
-
-    <!-- مؤشرات (Dots) -->
-    <div class="carousel-indicators">
-        <button type="button" data-bs-target="#imageSlider" data-bs-slide-to="0" class="active"></button>
-        <button type="button" data-bs-target="#imageSlider" data-bs-slide-to="1"></button>
-        <button type="button" data-bs-target="#imageSlider" data-bs-slide-to="2"></button>
-    </div>
+<div class="container-fluid">
+	<div id="imageSlider" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="3000">
+		<div class="carousel-inner">
+			<!-- الصورة الأولى -->
+			<div class="carousel-item active">
+				<img src="{{ asset('images/Website-Banner-1.jpg') }}" class="d-block w-100" 
+					 alt="Slider Image 1" >
+			</div>
+	
+			<!-- الصورة الثانية -->
+			<div class="carousel-item">
+				<img src="{{ asset('images/WhatsApp_Image_2023-03-06_at_12.18.57_PM.webp') }}" class="d-block w-100" 
+					 alt="Slider Image 2"  >
+			</div>
+	
+			<!-- الصورة الثالثة -->
+			<div class="carousel-item">
+				<img src="{{ asset('images/bannner1-1-1.jpg') }}" class="d-block w-100" 
+					 alt="Slider Image 3">
+			</div>
+		</div>
+	
+		<!-- أزرار التنقل -->
+		<button class="carousel-control-prev" type="button" data-bs-target="#imageSlider" data-bs-slide="prev">
+			<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+		</button>
+		<button class="carousel-control-next" type="button" data-bs-target="#imageSlider" data-bs-slide="next">
+			<span class="carousel-control-next-icon" aria-hidden="true"></span>
+		</button>
+	
+		<!-- مؤشرات (Dots) -->
+		<div class="carousel-indicators">
+			<button type="button" data-bs-target="#imageSlider" data-bs-slide-to="0" class="active"></button>
+			<button type="button" data-bs-target="#imageSlider" data-bs-slide-to="1"></button>
+			<button type="button" data-bs-target="#imageSlider" data-bs-slide-to="2"></button>
+		</div>
+	</div>
+	
 </div>
-
+  <!-- Banner -->
+ 
 
 
 <!-- Characteristics -->
@@ -202,11 +207,15 @@
 									<div class="deals_info_line d-flex flex-row justify-content-start">
 										@php($category = DB::table('categories')->where('id' ,'=' , $val->category)->first())
 										<div class="deals_item_category"><a href="{{route('products.by.category',$category->id)}}">{{$category->name}}</a></div>
-										<div class="deals_item_price_a ml-auto">{{$val->old_price}}EG</div>
+										<div class="deals_item_price_a ml-auto">
+											@if ($val->old_price != '')
+												<span style="text-decoration: line-through;color:red">LE {{$val->old_price}}</span>
+											@endif
+											 </div>
 									</div>
 									<div class="deals_info_line d-flex flex-row justify-content-start">
 										<div class="deals_item_name">{{$val->name}}</div>
-										<div class="deals_item_price ml-auto">{{$val->new_price}}EG</div>
+										<div class="deals_item_price ml-auto text-dark">LE {{$val->new_price}}</div>
 									</div>
 									<div class="available">
 										<div class="available_line d-flex flex-row justify-content-start">
@@ -257,12 +266,12 @@
 							<ul class="clearfix">
 								<li class="active">Featured</li>
 								<li>On Sale</li>
-								<li>Best Rated</li>
+							 
 							</ul>
 							<div class="tabs_line"><span></span></div>
 						</div>
 
-						<!-- Product Panel -->
+						<!-- Product Panel Feature-->
 						<div class="product_panel panel active">
 							<div class="featured_slider slider">
 
@@ -272,18 +281,24 @@
 								<div class="featured_slider_item">
 									<div class="border_active"></div>
 									<div class="product_item discount d-flex flex-column align-items-center justify-content-center text-center">
-										<div class="product_image d-flex flex-column align-items-center justify-content-center"><img src="{{asset($val->img)}}" alt=""></div>
+										<div class="product_image d-flex flex-column align-items-center justify-content-center"><img style="width:180px;" src="{{asset($val->img)}}" alt=""></div>
 										<div class="product_content">
-											<div class="product_price discount">{{$val->new_price}}EG<span>{{$val->old_price}}EG</span></div>
+											<div class="product_price discount text-uppercase" style="color: black;margin-top: 33px;">
+												LE {{$val->new_price}}
+										     	@if ($val->old_price != '')
+												<span style="text-decoration: line-through;color:red">LE {{$val->old_price}}</span>
+											   @endif
+										 
+											</div>
 											<div class="product_name"><div><a href="{{route('products.view',$val->id)}}">{{$val->name}}</a></div></div>
 											<div class="product_extras">
 									 
 												<button class="product_cart_button cart_button" productID='{{ $val->id }}'>Add to Cart</button>
 											</div>
 										</div>
-										<div class="product_fav"><i class="fas fa-heart"></i></div>
+										<div class="product_fav" productID = '{{$val->id}}'> <i class="fas fa-heart"></i></div>
 										<ul class="product_marks">
-											<li class="product_mark product_discount">-25%</li>
+											<li class="product_mark product_discount">new</li>
 											<li class="product_mark product_new">new</li>
 										</ul>
 									</div>
@@ -295,31 +310,37 @@
 							<div class="featured_slider_dots_cover"></div>
 						</div>
 
-						<!-- Product Panel -->
+						<!-- Product Panel OneSale -->
 
 						<div class="product_panel panel">
 							<div class="featured_slider slider">
 								   
 								@foreach ( $onSale as $val )
-									
-							 
 								<!-- Slider Item -->
 								<div class="featured_slider_item">
 									<div class="border_active"></div>
 									<div class="product_item discount d-flex flex-column align-items-center justify-content-center text-center">
-										<div class="product_image d-flex flex-column align-items-center justify-content-center"><img src="{{asset($val->img)}}" alt=""></div>
+										<div class="product_image d-flex flex-column align-items-center justify-content-center"><img style="width:180px;" src="{{asset($val->img)}}" alt=""></div>
 										<div class="product_content">
-											<div class="product_price discount">{{$val->new_price}}<span>{{$val->old_price}}</span></div>
+											<div class="product_price discount text-uppercase" style="color: black;margin-top: 33px;">
+												LE {{$val->new_price}}
+										     	@if ($val->old_price != '')
+												<span style="text-decoration: line-through;color:red">LE {{$val->old_price}}</span>
+											   @endif
+										 
+											</div>
 											<div class="product_name"><div><a href="{{route('products.view',$val->id)}}">{{$val->name}}.</a></div></div>
 											<div class="product_extras">
-											 
-												<button class="product_cart_button">Add to Cart</button>
+												<button class="product_cart_button cart_button" productID='{{ $val->id }}'>
+													Add to Cart
+												</button>
 											</div>
 										</div>
-										<div class="product_fav"><i class="fas fa-heart"></i></div>
+										<div class="product_fav" productID = '{{$val->id}}'> <i class="fas fa-heart"></i></div>
 										<ul class="product_marks">
-											<li class="product_mark product_discount">-25%</li>
 											<li class="product_mark product_new">new</li>
+											<li class="product_mark product_discount">-25%</li>
+										 
 										</ul>
 									</div>
 								</div>
@@ -329,42 +350,9 @@
 							<div class="featured_slider_dots_cover"></div>
 						</div>
 
-						<!-- Product Panel -->
-
-						<div class="product_panel panel">
-							<div class="featured_slider slider">
-
-								<!-- Slider Item -->
-								<div class="featured_slider_item">
-									<div class="border_active"></div>
-									<div class="product_item discount d-flex flex-column align-items-center justify-content-center text-center">
-										<div class="product_image d-flex flex-column align-items-center justify-content-center"><img src="images/featured_1.png" alt=""></div>
-										<div class="product_content">
-											<div class="product_price discount">$225<span>$300</span></div>
-											<div class="product_name"><div><a href="product.html">Huawei MediaPad...</a></div></div>
-											<div class="product_extras">
-												<div class="product_color">
-													<input type="radio" checked name="product_color" style="background:#b19c83">
-													<input type="radio" name="product_color" style="background:#000000">
-													<input type="radio" name="product_color" style="background:#999999">
-												</div>
-												<button class="product_cart_button">Add to Cart</button>
-											</div>
-										</div>
-										<div class="product_fav"><i class="fas fa-heart"></i></div>
-										<ul class="product_marks">
-											<li class="product_mark product_discount">-25%</li>
-											<li class="product_mark product_new">new</li>
-										</ul>
-									</div>
-								</div>
+			
 
 						 
-
-							</div>
-							<div class="featured_slider_dots_cover"></div>
-						</div>
-
 					</div>
 				</div>
 
@@ -414,7 +402,7 @@
 <!-- Banner -->
 
 <div class="banner_2">
-    <div class="banner_2_background" style="background-image:url('{{ asset('images/gym-motivation-image-zudvy4fwryq539ep.jpg') }}');"></div>
+    <div class="banner_2_background" style="background-image:url('{{ asset('images/WhatsApp Image 2025-02-13 at 01.13.42_7a19c16e.jpg') }}');"></div>
     <div class="banner_2_container">
         <div class="banner_2_dots"></div>
 
@@ -475,7 +463,7 @@
 						<div class="tabs_line"><span></span></div>
 					</div>
 					<div class="row">
-						<div class="col-lg-9" style="z-index:1;">
+						<div class="col-lg-12" style="z-index:1;">
 
 							<!-- Product Panel -->
 							<div class="product_panel panel active">
@@ -486,12 +474,14 @@
 									<div class="arrivals_slider_item">
 										<div class="border_active"></div>
 										<div class="product_item is_new d-flex flex-column align-items-center justify-content-center text-center">
-											<div class="product_image d-flex flex-column align-items-center justify-content-center"><img src="{{asset($val->img)}}" alt=""></div>
+											<div class="product_image d-flex flex-column align-items-center justify-content-center"><img style="width: 180px" src="{{asset($val->img)}}" alt=""></div>
 											<div class="product_content">
-												<div class="product_price">{{$val->new_price}}EG
-													@if ($val->old_price != '')
-														<span style="color: red; text-decoration: line-through;">{{$val->old_price}}EG</span>
-													@endif
+												<div class="product_price discount text-uppercase mt-5" style="color: black;margin-top: 33px;">
+													LE {{$val->new_price}}
+													 @if ($val->old_price)
+													<span style="text-decoration: line-through;color:red">LE {{$val->old_price}}</span>
+												   @endif
+											 
 												</div>
 												<div class="product_name"><div><a href="{{route('products.view',$val->id)}}">{{$val->name}}</a></div></div>
 												<div class="product_extras">
@@ -499,7 +489,7 @@
 													<button class="product_cart_button cart_button" productID='{{ $val->id }}'>Add to Cart</button>
 												</div>
 											</div>
-											<div class="product_fav"><i class="fas fa-heart"></i></div>
+											<div class="product_fav" productID = '{{$val->id}}'> <i class="fas fa-heart"></i></div>
 											<ul class="product_marks">
 												<li class="product_mark product_discount">-25%</li>
 												<li class="product_mark product_new">new</li>
@@ -512,14 +502,7 @@
 								<div class="arrivals_slider_dots_cover"></div>
 							</div>
 
-					 
-
-							<!-- Product Panel -->
-					 
-
 						</div>
- 
-				 
 
 					</div>
 							
@@ -531,55 +514,59 @@
 
 <!-- Recently Viewed -->
 
-<div >
-	<div class="container">
-		<div class="row">
-			<div class="col">
-				<div class="viewed_title_container">
-					<h3 class="viewed_title">Recently Viewed</h3>
-					<div class="">
-						<div class="viewed_nav viewed_prev"><i class="fas fa-chevron-left"></i></div>
-						<div class="viewed_nav viewed_next"><i class="fas fa-chevron-right"></i></div>
-					</div>
-				</div>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="viewed_title_container d-flex justify-content-between align-items-center">
+                <h3 class="viewed_title">Recently Viewed</h3>
+                <div class="viewed_navs">
+                    <button class="viewed_nav viewed_prev btn btn-outline-primary">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="viewed_nav viewed_next btn btn-outline-primary">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
 
-				<div class="viewed_slider_container ">
-					
-					<!-- Recently Viewed Slider -->
+            <div class="viewed_slider_container">
+                <!-- Recently Viewed Slider -->
+                <div class="row">
+                    @forelse($views as $view)
+                        @php($product = DB::table('products')->where('id', '=', $view->product_id)->first())
 
-					
-						@foreach ($views as $view )
+                        @if ($product)
+                            <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-4">
+                                <div class="proView">
+                                    <div class="product_image">
+                                        <img class="img-fluid" src="{{ asset($product->img) }}" alt="" />
+                                    </div>
+                                    <div class="product_details">
+                                        <div class="product_price discount text-uppercase" style="color: black;">
+                                            LE {{ $product->new_price }}
+                                            @if ($product->old_price)
+                                                <span style="text-decoration: line-through; color: red;">LE {{ $product->old_price }}</span>
+                                            @endif
+                                        </div>
+                                        <div class="product_name">
+                                            <a href="{{ route('products.view', $product->id) }}">{{ $product->name }}</a>
+                                        </div>
+                                    </div>
+                                    <ul class="item_marks">
+                                        <li class="item_mark item_discount">-25%</li>
+                                        <li class="item_mark item_new">new</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        @endif
 
-						 
-						<!-- Recently Viewed Item -->
-						<div class="proView ">
-							@php($product = DB::table('products')->where('id','=',$view->product_id)->first())
-
-							<div >
-								<div class=""><img src="{{asset($product->img)}}" alt=""></div>
-								<div class="">
-									<div class="">{{$product->new_price}}EG
-										@if ($product->old_price != '')
-											<span style="text-decoration: line-through ; color: red ;">{{$product->old_price}}EG</span> 
-										@endif
-									</div> 
-									<div class=""><a href="{{route('products.view',$product->id)}}">{{$product->name}}</a></div>
-								</div>
-								<ul class="item_marks">
-									<li class="item_mark item_discount">-25%</li>
-									<li class="item_mark item_new">new</li>
-								</ul>
-							</div>
-						</div>
-
-						@endforeach
-
-					 
-					
-				</div>
-			</div>
-		</div>
-	</div>
+                    @empty
+                        <p class="text-center text-danger" style="font-size: 22px;">لا توجد منتجات شاهدتها مؤخرًا.</p>
+                    @endforelse
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Brands -->
@@ -613,99 +600,7 @@
 
 @endsection
 
- @section('js')
-  <script>
-	  
  
-	  $(document).ready(function(){
-
-	$('.cart_button').click(function(e){
-
-		e.preventDefault()
-
-		let product  = $(this).attr('productID')
-		
-
-		$.ajax({
-			method : 'post' ,
-			url : '/add-cart' ,
-			data: {
-			productID : product ,
-				
-			},
-				headers : {
-				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-				} , 
-			success: function(response){
-			if(response.data == 1){
-			Swal.fire({
-				title: 'Done!',
-				text: 'The Product Add to Cart Successfully',
-				icon: 'success',
-				confirmButtonText: 'Ok'
-				})
-			}else if( response.data == 0){
-			Swal.fire({
-				title: 'Error!',
-				text: 'The Product Alrady Existe Cart ',
-				icon: 'error',
-				confirmButtonText: 'Ok'
-				})
-			}
-			}
-		})
-
-			
-		})
-	})
-
-	$('.header_search_button').click(function(e){
-
-		e.preventDefault();
-
- let btnSearch  = $('.header_search_input').val();
-
-	if( btnSearch == ''){
-
-		Swal.fire({
-		title: 'Error!',
-		text: 'Please enter a product name',
-		icon: 'error',
-		confirmButtonText: 'Ok'
-		})
-
-	}else{
-		$.ajax({
-			method : 'post',
-			url : '/search-product',
-			data :{
-				'search' : btnSearch 
-			} ,
-		headers:{
-			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-		}, 
-			success: function(response) {
-				if(response.data == 0){
-					Swal.fire({
-					title: 'Error!',
-					text: 'Product Not Fount',
-					icon: 'error',
-					confirmButtonText: 'Ok'
-					})
-					// console.log(response);
-				}
-				else{
-					window.location.href = '/search-result/'+ btnSearch + ''
-				}
-
-			}
-			})
-	}
-	})
- 
-  </script>
- @endsection
-
 
  
 

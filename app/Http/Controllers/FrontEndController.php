@@ -27,11 +27,13 @@ class FrontEndController extends Controller
 {
   public function home()
   { 
-      $ProductFeatured = Product::where('isfeatured', '=' , 1)->latest()->paginate(8);
+      $ProductFeatured = Product::where('isfeatured', '=' , 1)->latest()->paginate(16);
       $product = Product::orderBy('id', 'desc')->first();
       $weak_deals      =Product::latest()->paginate(3);
       $categories      =Category::all();
-      $onSale          = Product::where('old_price' ,'!=' , null )->latest()->paginate(8);
+      $onSale = Product::where('old_price' , '!=' , null)
+      ->latest()
+      ->paginate(16);
       $ip              = $_SERVER['REMOTE_ADDR'];
       $views           =ProductViewed::where('ip' ,'=' ,$ip)->latest()->paginate(8);
     return view('Frontend.index' ,
@@ -40,7 +42,7 @@ class FrontEndController extends Controller
 
   public function products_by_category($id){
    
-    $product = Product::where('category' ,'=' , $id)->latest()->paginate(10);
+    $product = Product::where('category' ,'=' , $id)->latest()->paginate(20);
     $category = Category::all();
     $selctCat = Category::findOrFail($id);
   
@@ -81,10 +83,12 @@ class FrontEndController extends Controller
   public function super_deals(){
 
     $category= Category::all();
-    $product = Product::where('old_price', '!=' , null)->latest()->paginate(20);
+    $product = Product::where('old_price' , '!=' , null) 
+    ->latest()
+    ->paginate(20);
     $ip              = $_SERVER['REMOTE_ADDR'];
     $views           =ProductViewed::where('ip' ,'=' ,$ip)->latest()->paginate(8);
-   
+  //  return dd($product);
     return view('Frontend.super_deals' ,  compact('product' , 'category' ,'views')) ;
  }// End Method
 

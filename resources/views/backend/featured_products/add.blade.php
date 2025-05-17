@@ -145,6 +145,8 @@
                     text: 'Prodcut Added Successfully',
                     icon: 'success',
                     confirmButtonText: 'Ok'
+                    }).then(result => {
+                      location.reload();
                     })
                 }
 

@@ -47,6 +47,7 @@
     
           </tbody>
         </table>
+        {{ $products->links() }}
       </div>
     </div><!-- card -->
   </div><!-- sl-pagebody -->

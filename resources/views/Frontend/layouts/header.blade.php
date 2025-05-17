@@ -43,22 +43,25 @@
 				<div class="row">
                 @php($categories =DB::table('categories')->orderBy( 'order','asc')->get())
 					<!-- Logo -->
-					<div class="col-lg-2 col-sm-3 col-3 order-1">
+					<div class="col-lg-3 col-sm-3 col-3 order-1">
 						<div class="logo_container">
 						 
 							<div class="logo">
 							<a href="{{route('home')}}">
-								<img src="{{ asset($data->logo) }}" alt="" style="width: 200px">
+								<img src="{{ asset($data->logo) }}" alt="" style="max-width: 100%;">
 							</a>
 						</div>
 						</div>
 					</div>
 
 					<!-- Search -->
-				 @include('Frontend.layouts.search')
+			 @include('Frontend.layouts.search')
+					
+					 
+					 
 
 					<!-- Wishlist -->
-					<div class="col-lg-4  col-9 order-lg-3 order-2 text-lg-left text-right">
+					<div class="col-lg-4  col-sm-9 order-lg-3 order-2 text-lg-left text-right">
 						<div class="wishlist_cart d-flex flex-row align-items-center justify-content-end">
 							<div class="wishlist d-flex flex-row align-items-center justify-content-end">
 								<div class="wishlist_icon"><img src="{{asset('images/heart.png')}}" alt=""></div>
@@ -106,54 +109,65 @@
 			<div class="container">
 				<div class="row">
 					<div class="col">
-						
 						<div class="main_nav_content d-flex flex-row">
-
+		
 							<!-- Categories Menu -->
-
 							<div class="cat_menu_container">
 								<div class="cat_menu_title d-flex flex-row align-items-center justify-content-start">
 									<div class="cat_burger"><span></span><span></span><span></span></div>
 									<div class="cat_menu_text">categories</div>
 								</div>
-								
-					<ul class="cat_menu">
-						@foreach ($categories as $category)
-					<li><a href="{{route('products.by.category',$category->id)}}">{{$category->name}} <i class="fas fa-chevron-right ml-auto"></i></a></li>
-
-						@endforeach
-							 
+								<ul class="cat_menu">
+									@php($categories = DB::table('categories')->orderBy('order', 'asc')->get())
+									@foreach ($categories as $category)
+										<li>
+											<a href="{{ route('products.by.category', $category->id) }}">
+												{{ $category->name }} <i class="fas fa-chevron-right ml-auto"></i>
+											</a>
+										</li>
+									@endforeach
 								</ul>
 							</div>
 
+					 
+		
 							<!-- Main Nav Menu -->
-
-							<div class="main_nav_menu ml-auto">
+							<div class="main_nav_menu ml-auto d-none d-lg-block">
 								<ul class="standard_dropdown main_nav_dropdown">
-									<li><a href="{{route('home')}}">Home<i class="fas fa-chevron-down"></i></a></li>
-									<li><a href="{{route('super.deals')}}">Super Deals<i class="fas fa-chevron-down"></i></a></li>
-									<li><a href="{{route('products')}}">Products<i class="fas fa-chevron-down"></i></a></li>
-									{{-- <li><a href="blog.html">Blog<i class="fas fa-chevron-down"></i></a></li> --}}
-									<li><a href="{{ route('contact.us') }}">Contact<i class="fas fa-chevron-down"></i></a></li>
+									<li><a href="{{ route('home') }}">Home</a></li>
+									<li><a href="{{ route('super.deals') }}">Super Deals</a></li>
+									<li><a href="{{ route('products') }}">Products</a></li>
+									<li><a href="{{ route('contact.us') }}">Contact</a></li>
 								</ul>
 							</div>
+		
+							<!-- Menu Trigger for Small Screens -->
+<!-- Container for the burger icon and the menu items -->
+<div class="menu_container d-lg-none">
+    <!-- Menu Trigger for Small Screens (Burger icon) -->
+ 
 
-							<!-- Menu Trigger -->
+    <!-- The horizontal menu items that are displayed next to each other -->
+    <div class="menu_items">
+        <a href="{{ route('home') }}">Home</a>
+        <a href="{{ route('super.deals') }}">Super Deals</a>
+        <a href="{{ route('products') }}">Products</a>
+        <a href="{{ route('contact.us') }}">Contact</a>
+    </div>
+</div>
 
-							<div class="menu_trigger_container ml-auto">
-								<div class="menu_trigger d-flex flex-row align-items-center justify-content-end">
-									<div class="menu_burger">
-										<div class="menu_trigger_text">menu</div>
-										<div class="cat_burger menu_burger_inner"><span></span><span></span><span></span></div>
-									</div>
-								</div>
-							</div>
 
+
+
+
+
+				 
 						</div>
 					</div>
 				</div>
 			</div>
 		</nav>
+		
 		
 		<!-- Menu -->
 
@@ -244,54 +258,4 @@
 	</header>
 
 
-	@section('js')
-   <script>
-
-	$(document).ready(function(){
-
-     $('.header_search_button').click(function(e){
  
-		e.preventDefault();
-
-		 let btnSearch  = $('.header_search_input').val();
-
-		 if( btnSearch == ''){
-
-			Swal.fire({
-            title: 'Error!',
-            text: 'Please enter a product name',
-            icon: 'error',
-            confirmButtonText: 'Ok'
-            })
-
-		 }else{
-			$.ajax({
-				method : 'post',
-				url : '/search-product',
-				data :{
-					'search' : btnSearch 
-				} ,
-				headers:{
-					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-				}, 
-				success: function(response) {
-					if(response.data == 0){
-						Swal.fire({
-						title: 'Error!',
-						text: 'Product Not Fount',
-						icon: 'error',
-						confirmButtonText: 'Ok'
-						})
-						// console.log(response);
-					}
-					else{
-						window.location.href = '/search-result/'+ btnSearch + ''
-					}
-	 
-				}
-			})
-		 }
- 	 })
-	});
-   </script>
-	@endsection

@@ -11,8 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('orders', function (Blueprint $table) {
-            $table->decimal('discount', 10, 2)->default(0)->after('total');
+        Schema::table('coupons', function (Blueprint $table) {
+            $table->enum('type', ['fixed', 'percent'])->default('percent');
+            $table->decimal('value', 10, 2)->default(0);
+            $table->dropColumn('discount');
         });
     }
 
@@ -21,8 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('orders', function (Blueprint $table) {
-            $table->dropColumn('discount'); // لحذف العمود عند التراجع
-        });
+        //
     }
 };

@@ -45,9 +45,9 @@
 
                             </div>
 
-                            <div class="product_price">{{$product->new_price}}EGP
+                            <div class="product_price">LE {{$product->new_price}} 
                                 @if ($product->old_price !=  '')
-                                <span style="text-decoration: line-through;color:red" > {{$product->old_price}}EGP</span>   
+                                <span style="text-decoration: line-through;color:red" >LE {{$product->old_price}}</span>   
                                 @endif
                             </div>
                             <div class="button_container">
@@ -66,50 +66,4 @@
 
 @endsection
 
-@section('js')
-
-<script>
-    $(document).ready(function(){
-
-        $('.cart_button').click(function(e){
-
-            e.preventDefault()
-
-             let product  = $(this).attr('productID')
-             let quantity   = $('#quantity_input').val()
-
-            $.ajax({
-             method : 'post' ,
-             url : '/add-cart' ,
-             data: {
-                productID : product ,
-                quantity : quantity 
-             },
-             headers : {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-             } , 
-             success: function(response){
-               if(response.data == 1){
-                Swal.fire({
-                    title: 'Done!',
-                    text: 'The Product Add to Cart Successfully',
-                    icon: 'success',
-                    confirmButtonText: 'Ok'
-                    })
-               }else if( response.data == 0){
-                Swal.fire({
-                    title: 'Error!',
-                    text: 'The Product Alrady Existe Cart ',
-                    icon: 'error',
-                    confirmButtonText: 'Ok'
-                    })
-               }
-             }
-            })
-            
-              
-       })
-    })
-</script>
-
-@endsection
+ 

@@ -72,10 +72,14 @@
                                 <img src="{{asset($val->img)}}" alt="">
                             </div>
                             <div class="product_content">
-                                <div class="product_price">{{$val->old_price}}EG<span>{{$val->new_price}}EG</span></div>
+                                <div class="product_price text-dark">LE {{$val->new_price}}
+                                    @if($val->old_price  != '')
+                                    <span style="text-decoration: line-through ;color:red">{{$val->old_price}}</span>
+                                    @endif
+                                </div>
                                 <div class="product_name"><div><a href="{{route('products.view',$val->id)}}" tabindex="0">{{$val->name}}</a></div></div>
                             </div>
-                            <div class="product_fav"><i class="fas fa-heart"></i></div>
+                            <div class="product_fav" productID = '{{$val->id}}'> <i class="fas fa-heart"></i></div>
                             <ul class="product_marks">
                                 <li class="product_mark product_discount">-25%</li>
                                 <li class="product_mark product_new">new</li>
@@ -106,30 +110,32 @@
 
 					<div class="viewed_slider_container ">
 						
-						<!-- Recently Viewed Slider -->
-							@foreach ($views as $view )
-							<!-- Recently Viewed Item -->
-							<div class="proView ">
-								@php($product = DB::table('products')->where('id','=',$view->product_id)->first())
+                  @forelse ( $views as $view)
+						@php($product = DB::table('products')->where('id','=',$view->product_id)->first())
 
-								<div >
-									<div class=""><img src="{{asset($product->img)}}" alt=""></div>
-									<div class="">
-                                        <div class="">{{$product->new_price}}EG
-                                            @if ($product->old_price != '')
-                                                <span style="text-decoration: line-through ; color: red ;">{{$product->old_price}}EG</span> 
-                                            @endif
-                                        </div> 
-										<div class=""><a href="{{route('products.view' ,$val->id)}}">{{$product->name}}</a></div>
-									</div>
-									<ul class="item_marks">
-										<li class="item_mark item_discount">-25%</li>
-										<li class="item_mark item_new">new</li>
-									</ul>
-								</div>
+						@if ($product)
+						<div class="proView ">
+						<div >
+							<div class=""><img src="{{asset($product->img)}}" alt=""></div>
+							<div class="">
+								<div class="">{{$product->new_price}}EG
+									@if ($product->old_price != '')
+										<span style="text-decoration: line-through ; color: red ;">{{$product->old_price}}EG</span> 
+									@endif
+								</div> 
+								<div class=""><a href="{{route('products.view',$product->id)}}">{{$product->name}}</a></div>
 							</div>
-
-							@endforeach	
+							<ul class="item_marks">
+								<li class="item_mark item_discount">-25%</li>
+								<li class="item_mark item_new">new</li>
+							</ul>
+						</div>
+					</div>
+				    	@endif
+						
+						@empty
+						<p style="color: red; font-size: 22px;text-align:center;">لا توجد منتجات شاهدتها مؤخرًا.</p>
+						@endforelse
 					</div>
 				</div>
 			</div>
@@ -159,3 +165,5 @@
     </div>
 </div>
 @endsection
+
+ 

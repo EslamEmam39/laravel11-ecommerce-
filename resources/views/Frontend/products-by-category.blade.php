@@ -53,14 +53,18 @@
                         <div class="product_item">
                             <div class="product_border"></div>
                             <div class="product_image d-flex flex-column align-items-center justify-content-center">
-                                <img src="{{asset($val->img)}}" alt=""></div>
+                                <img src="{{asset($val->img)}}" alt="{{ $val->name }}" style="width: 130px"></div>
                             <div class="product_content">
-                                <div class="product_price">{{$val->new_price}}EGP 
-                                    <span style="color: red ; text-decoration: line-through;">{{$val->old_price}}EGP</span>
+                            	<div class="product_price discount text-uppercase" style="color: black;margin-top: 33px;">
+                                    LE {{$val->new_price}}
+                                     @if ($val->old_price != '')
+                                    <span style="text-decoration: line-through;color:red">LE {{$val->old_price}}</span>
+                                   @endif
+                             
                                 </div>
                                 <div class="product_name"><div><a href="{{route('products.view',$val->id)}}" tabindex="0">{{$val->name}}</a> </div></div>
                             </div>
-                            <div class="product_fav"><i class="fas fa-heart"></i></div>
+                            <div class="product_fav" productID = '{{$val->id}}'> <i class="fas fa-heart"></i></div>
                             <ul class="product_marks">
                     
                             </ul>
@@ -83,3 +87,5 @@
 
 
 @endsection
+
+ 

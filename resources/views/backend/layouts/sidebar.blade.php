@@ -74,6 +74,12 @@
           <li class="nav-item"><a href="{{ route('all.orders') }}" class="nav-link">View Orders</a></li>
         
         </ul>
+        <a href="{{ route('admin.users') }}" class="sl-menu-link">
+          <div class="sl-menu-item">
+            <i class="menu-item-icon icon ion-ios-paper-outline tx-22"></i>
+            <span class="menu-item-label">Usres</span>
+          </div><!-- menu-item -->
+        </a><!-- sl-menu-link -->
         <a href="{{ route('admin.contactUs') }}" class="sl-menu-link">
           <div class="sl-menu-item">
             <i class="menu-item-icon icon ion-ios-email-outline tx-24"></i>
@@ -82,7 +88,7 @@
         </a><!-- sl-menu-link -->
         <a href="{{ route('admin.logout') }}" class="sl-menu-link">
           <div class="sl-menu-item">
-            <i class="menu-item-icon icon ion-ios-paper-outline tx-22"></i>
+            <i class="menu-item-icon icon ion-ios-gear-outline tx-24"></i>
             <span class="menu-item-label">log out </span>
    
           </div><!-- menu-item -->

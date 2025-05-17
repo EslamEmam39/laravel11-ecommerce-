@@ -30,7 +30,7 @@
             </div>
 
             <div class="row mg-t-20">
-              <label class="col-sm-4 form-control-label">Product Image: <span class="tx-danger">*</span></label>
+              <label class="col-sm-4 form-control-label">Category Image: <span class="tx-danger">*</span></label>
               <div class="col-sm-8 mg-t-10 mg-sm-t-0">
                 <input type="file" id='img' class="form-control" >
               </div>
@@ -70,7 +70,7 @@
            formData.append('order' , order)
            formData.append('img' , img)
 
-            if(name == '' || !img){
+            if(name == ''){
                 Swal.fire({
                 title: 'Error!',
                 text: 'plz Enter Category',

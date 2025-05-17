@@ -69,10 +69,16 @@
                         <div class="product_item discount">
                             <div class="product_border"></div>
                             <div class="product_image d-flex flex-column align-items-center justify-content-center">
-                                <img src="{{asset($val->img)}}" alt="">
+                                <img src="{{asset($val->img)}}" alt="{{ $val->name }}" style="width: 130px">
                             </div>
                             <div class="product_content">
-                                <div class="product_price">{{$val->old_price}}EG<span>{{$val->new_price}}EG</span></div>
+                                <div class="product_price discount text-uppercase" style="color: black;margin-top: 33px;">
+                                    LE {{$val->new_price}}
+                                     @if ($val->old_price != '')
+                                    <span style="text-decoration: line-through;color:red">LE {{$val->old_price}}</span>
+                                   @endif
+                             
+                                </div>
                                 <div class="product_name"><div><a href="{{route('products.view',$val->id)}}" tabindex="0">{{$val->name}}</a></div></div>
                             </div>
                             <div class="product_fav" productID = '{{$val->id}}'> <i class="fas fa-heart"></i></div>
@@ -107,29 +113,32 @@
 					<div class="viewed_slider_container ">
 						
 						<!-- Recently Viewed Slider -->
-							@foreach ($views as $view )
-							<!-- Recently Viewed Item -->
-							<div class="proView ">
-								@php($product = DB::table('products')->where('id','=',$view->product_id)->first())
+                        @forelse ( $views as $view)
+						@php($product = DB::table('products')->where('id','=',$view->product_id)->first())
 
-								<div >
-									<div class=""><img src="{{asset($product->img)}}" alt=""></div>
-									<div class="">
-                                        <div class="">{{$product->new_price}}EG
-                                            @if ($product->old_price != '')
-                                                <span style="text-decoration: line-through ; color: red ;">{{$product->old_price}}EG</span> 
-                                            @endif
-                                        </div> 
-										<div class=""><a href="{{route('products.view' ,$val->id)}}">{{$product->name}}</a></div>
-									</div>
-									<ul class="item_marks">
-										<li class="item_mark item_discount">-25%</li>
-										<li class="item_mark item_new">new</li>
-									</ul>
-								</div>
+						@if ($product)
+						<div class="proView ">
+						<div >
+							<div class=""><img src="{{asset($product->img)}}" alt=""></div>
+							<div class="">
+								<div class="">{{$product->new_price}}EG
+									@if ($product->old_price != '')
+										<span style="text-decoration: line-through ; color: red ;">{{$product->old_price}}EG</span> 
+									@endif
+								</div> 
+								<div class=""><a href="{{route('products.view',$product->id)}}">{{$product->name}}</a></div>
 							</div>
-
-							@endforeach	
+							<ul class="item_marks">
+								<li class="item_mark item_discount">-25%</li>
+								<li class="item_mark item_new">new</li>
+							</ul>
+						</div>
+					</div>
+				    	@endif
+						
+						@empty
+						<p style="color: red; font-size: 22px;text-align:center;">لا توجد منتجات شاهدتها مؤخرًا.</p>
+						@endforelse
 					</div>
 				</div>
 			</div>
@@ -160,93 +169,4 @@
 </div>
 @endsection
 
-@section('js')
- <script>
-    $(document).ready(function(){
-
-        $('.product_fav').click(function(e){
-            e.preventDefault();
-
-            let product = $(this).attr('productID')
-        
-                $.ajax({
-                    method : 'post' , 
-                    url : '/add-favorite' ,
-                    data : {
-                        product :product 
-                    },
-                    headers:{
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    success: function(response) {
-                        console.log(response)
-                            if (response.data == 1) {
-                            Swal.fire({
-                            title: 'Success!',
-                            text: 'Product added to Favorites successfully.',
-                            icon: 'success',
-                            confirmButtonText: 'Ok'
-                            })
-                        } else if (response.data == 0) {
-                            Swal.fire({
-                            title: 'Error!',
-                            text: 'This product is already in your Favorites.',
-                            icon: 'error',
-                            confirmButtonText: 'Ok'
-                            });
-                            }
-                        }
-
-              
-                })
-          
-     
-        })
-    })
-
-    $('.header_search_button').click(function(e){
-
-    e.preventDefault();
-
- let btnSearch  = $('.header_search_input').val();
-
- if( btnSearch == ''){
-
-    Swal.fire({
-    title: 'Error!',
-    text: 'Please enter a product name',
-    icon: 'error',
-    confirmButtonText: 'Ok'
-    })
-
- }else{
-    $.ajax({
-        method : 'post',
-        url : '/search-product',
-        data :{
-            'search' : btnSearch 
-        } ,
-        headers:{
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }, 
-        success: function(response) {
-            if(response.data == 0){
-                Swal.fire({
-                title: 'Error!',
-                text: 'Product Not Fount',
-                icon: 'error',
-                confirmButtonText: 'Ok'
-                })
-                // console.log(response);
-            }
-            else{
-                window.location.href = '/search-result/'+ btnSearch + ''
-            }
-
-        }
-    })
- }
-})
  
- </script>
-@endsection

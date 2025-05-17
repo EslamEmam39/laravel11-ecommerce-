@@ -115,16 +115,17 @@ class OrderController extends Controller
                 $quantity[] = $val->quantity;
             }
         }
-
+ 
+        
         
     
         // إنشاء الطلب
         $order = Order::create([
-            'user_ip' => $user_ip,
-            'product_id' => json_encode($cartItems->pluck('product_id')->toArray()), // تخزين المنتجات كمصفوفة JSON
-            'quantity' => json_encode($quantity), // تخزين الكميات كمصفوفة JSON
-            'total' => $total, // حفظ الإجمالي بدون JSON
-            'status' => 'pending',
+            'user_ip'     => $user_ip,
+            'product_id'  => json_encode($cartItems->pluck('product_id')->toArray()), // تخزين المنتجات كمصفوفة JSON
+            'quantity'    => json_encode($quantity), // تخزين الكميات كمصفوفة JSON
+            'total'       => $total, // حفظ الإجمالي بدون JSON
+            'status'      => 'pending',
         ]);
     
         // حفظ بيانات التوصيل

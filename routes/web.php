@@ -114,7 +114,9 @@ Route::controller(BackendController::class)->group(function () {
     Route::get('admin/contactUs','admin_contactUs')->name('admin.contactUs');
     Route::get('contact/delete/{id}','contact_delete')->name('contact.delete');
      
- 
+    Route::get('admin/users','admin_users')->name('admin.users');
+    Route::get('admin/users/delete/{id}','admin_users_delete')->name('admin.users.delete');
+    
 
     Route::get('/admin-logout', 'admin_logout')->name('admin.logout');
     });
