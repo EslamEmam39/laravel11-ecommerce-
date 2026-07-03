@@ -90,7 +90,7 @@ var img = $('#img').prop('files')[0];  // الحصول على الملف من ح
     // إرسال البيانات عبر AJAX
     $.ajax({
         method: 'POST',
-        url: '/category/update',
+        url: '/category-update',
         processData: false,  // لا يتم معالجة البيانات
         contentType: false,  // لا يتم تعيين contentType
         data: formData,

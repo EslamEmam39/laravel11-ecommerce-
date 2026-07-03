@@ -72,7 +72,7 @@ $(document).ready(function(){
 
           $.ajax({
             method : 'post',
-            url : '/category/delete',
+            url : '/category-delete',
 
             data: {
               id : id 

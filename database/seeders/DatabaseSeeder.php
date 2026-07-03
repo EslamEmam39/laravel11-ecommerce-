@@ -14,17 +14,19 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        // User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
-
-        Coupon::insert([
-            ['code' => 'SALE10', 'discount' => 10, 'expires_at' => now()->addDays(30)],
-            ['code' => 'BLACKFRIDAY', 'discount' => 25, 'expires_at' => now()->addDays(10)],
-            ['code' => 'WELCOME5', 'discount' => 5, 'expires_at' => now()->addMonths(1)],
+        $this->call([
+            RoleAndPermission::class,
+            UserSeeder::class,
+            CategorySeeder::class,
+            ProductSeeder::class,
+            GeneralSettingSeeder::class,
+            CouponSeeder::class,
+            ProductViewedSeeder::class,
+            CartSeeder::class,
+            FavoriteSeeder::class,
+            OrderSeeder::class,
+            OrderDetailSeeder::class,
+            ContactUsSeeder::class,
         ]);
     }
 }

@@ -117,13 +117,39 @@ class BackendController extends Controller
   }//End Method
 
 
-   public function category_delete(Request $request){
+    public function category_delete(Request $request){
+        $category = Category::find($request->id);
 
-      $category = Category::where('id' ,"=" , $request->id)->delete();
+        if (!$category) {
+            return response()->json(['data' => 0, 'error' => 'Category not found'], 404);
+        }
 
-      return response()->json(['data' => $category]);
+        // Get all products in this category
+        $products = Product::where('category', $category->id)->get();
 
-   }//End Method 
+        foreach ($products as $product) {
+            // Delete product image
+            if (!empty($product->img) && file_exists(public_path($product->img))) {
+                @unlink(public_path($product->img));
+            }
+            
+            // Delete associated cart, favorite, and product views
+            \App\Models\Cart::where('product_id', $product->id)->delete();
+            \App\Models\Favorite::where('product_id', $product->id)->delete();
+            \App\Models\ProductViewed::where('product_id', $product->id)->delete();
+
+            $product->delete();
+        }
+
+        // Delete category image
+        if (!empty($category->img) && file_exists(public_path($category->img))) {
+            @unlink(public_path($category->img));
+        }
+
+        $result = $category->delete();
+
+        return response()->json(['data' => $result ? 1 : 0]);
+    }//End Method 
 
  public function product(){
   $products = Product::latest()->paginate(10);
@@ -218,15 +244,19 @@ class BackendController extends Controller
           return response()->json(['data' => 0, 'error' => 'Product not found'], 404);
       }
   
- 
       if (!empty($product->img) && file_exists(public_path($product->img))) {
-          unlink(public_path($product->img));
+          @unlink(public_path($product->img));
       }
   
+      // Delete associated cart, favorite, and product views
+      \App\Models\Cart::where('product_id', $product->id)->delete();
+      \App\Models\Favorite::where('product_id', $product->id)->delete();
+      \App\Models\ProductViewed::where('product_id', $product->id)->delete();
+
       $product->delete();
   
       return response()->json(['data' => 1]);
-  }//End Method
+   }//End Method
 
 public function featured_products_list(){
   

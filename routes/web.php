@@ -73,12 +73,12 @@ Route::controller(BackendController::class)->group(function () {
     Route::middleware(['auth' , 'verified', 'role:admin'])->group(function (){
         Route::get('/dashboard', 'dashboard')->name('dashboard');
         
-        Route::get('/category/list' , 'category')->name('category');
+        Route::get('/category-list' , 'category')->name('category');
         Route::get('/category-add' , 'category_add')->name('category.add');
         Route::post('/add-category/store' , 'add_category_store');
         Route::get('/category-edit/{id}' , 'category_edit')->name('category.edit');
-        Route::post('/category/update' , 'category_update');
-        Route::any('/category/delete' , 'category_delete');
+        Route::post('/category-update' , 'category_update');
+        Route::any('/category-delete' , 'category_delete');
  
 
         Route::get('/product-add' , 'product_add')->name('product.add');

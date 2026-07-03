@@ -18,11 +18,11 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        //
+        Schema::table('coupons', function (Blueprint $table) {
+            $table->integer('discount');
+            $table->dropColumn(['type', 'value']);
+        });
     }
 };
